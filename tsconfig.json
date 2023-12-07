@@ -5,14 +5,19 @@
     "moduleResolution": "node",
     "strict": true,
     "declaration": true,
-    "outDir": "./dist/esm",
+    "sourceMap": false,
+    "outDir": "dist/esm",
+    "declarationDir": "dist",
+    "rootDir": "src",
     "removeComments": true,
     "importHelpers": true,
+    "importsNotUsedAsValues": "remove",
     "isolatedModules": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": false
+    "skipLibCheck": true
   },
+  "include": ["src"],
   "exclude": ["node_modules", "src/test"]
 }

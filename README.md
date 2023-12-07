@@ -80,7 +80,7 @@ bun add crypto-shield
 
 ```javascript
 // CommonJS
-const CryptoShield = require("crypto-shield");
+const CryptoShield = require("crypto-shield").default;
 const encryptor = new CryptoShield();
 
 // ESM
