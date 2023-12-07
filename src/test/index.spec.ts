@@ -3,11 +3,11 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import EncryptDecrypt from "../index.js";
+import CryptoShield from "../index.js";
 
 const filePath = path.join(dirname(fileURLToPath(import.meta.url)), "text.txt");
 
-const encDec = new EncryptDecrypt({ secretKey: "1234" });
+const encDec = new CryptoShield({ secretKey: "1234" });
 const text = "Hello, world!";
 
 describe("Node Encryption Decryption Test Cases:-", () => {

@@ -57,7 +57,7 @@ export interface EncryptDecryptOptions {
   pbkdf2Algorithm?: Pbkdf2Algorithm;
 }
 
-class EncryptDecrypt {
+class CryptoShield {
   private algorithm: EncryptionAlgorithm;
   private iterations: number;
   private keyLength: number;
@@ -224,4 +224,4 @@ class EncryptDecrypt {
   }
 }
 
-export default EncryptDecrypt;
+export default CryptoShield;

@@ -1,12 +1,12 @@
-# 🛡️ node-encrypt-decrypt
+# 🛡️ crypto-shield
 
-**Node-Encrypt-Decrypt: Secure and Efficient Encryption and Decryption Library for Node.js**
+**crypto-shield: Secure and Efficient Encryption and Decryption Library for Node.js**
 
-Node-Encrypt-Decrypt is a powerful and efficient Node.js library designed for seamless encryption and decryption using a variety of algorithms. Leveraging Node.js's built-in crypto module, this library empowers users with fine-grained control over their encryption processes, ensuring both security and flexibility.
+crypto-shield is a powerful and efficient Node.js library designed for seamless encryption and decryption using a variety of algorithms. Leveraging Node.js's built-in crypto module, this library empowers users with fine-grained control over their encryption processes, ensuring both security and flexibility.
 
 ## Table of Contents
 
-- [🛡️ node-encrypt-decrypt](#️-node-encrypt-decrypt)
+- [🛡️ crypto-shield](#️-crypto-shield)
   - [Table of Contents](#table-of-contents)
   - [Features](#features)
   - [Installation](#installation)
@@ -16,8 +16,8 @@ Node-Encrypt-Decrypt is a powerful and efficient Node.js library designed for se
     - [Encrypting and Decrypting Text](#encrypting-and-decrypting-text)
     - [File Encryption and Decryption](#file-encryption-and-decryption)
 - [API Documentation](#api-documentation)
-  - [Class: EncryptDecrypt](#class-encryptdecrypt)
-    - [new EncryptDecrypt(options)](#new-encryptdecryptoptions)
+  - [Class: CryptoShield](#class-cryptoshield)
+    - [new CryptoShield(options)](#new-cryptoshieldoptions)
       - [Parameters](#parameters)
     - [EncryptDecryptOptions](#encryptdecryptoptions)
       - [Properties](#properties)
@@ -52,22 +52,22 @@ Node-Encrypt-Decrypt is a powerful and efficient Node.js library designed for se
 - 🌐 Cross-platform compatibility for versatile deployment options.
 - 🛑 Thoroughly tested to ensure reliability and stability in diverse scenarios.
 
-Node-Encrypt-Decrypt provides an extensive feature set to meet your encryption and decryption needs while offering simplicity, security, and flexibility in your Node.js projects.
+crypto-shield provides an extensive feature set to meet your encryption and decryption needs while offering simplicity, security, and flexibility in your Node.js projects.
 
 ## Installation
 
 Install the package using npm:
 
 ```bash
-npm install node-encrypt-decrypt
+npm install crypto-shield
 ```
 
 ```bash
-yarn add node-encrypt-decrypt
+yarn add crypto-shield
 ```
 
 ```bash
-bun add node-encrypt-decrypt
+bun add crypto-shield
 ```
 
 ## Usage
@@ -76,12 +76,12 @@ bun add node-encrypt-decrypt
 
 ```javascript
 // CommonJS
-const EncryptDecrypt = require("node-encrypt-decrypt");
-const encryptor = new EncryptDecrypt();
+const CryptoShield = require("crypto-shield");
+const encryptor = new CryptoShield();
 
 // ESM
-import EncryptDecrypt from "node-encrypt-decrypt";
-const encryptor = new EncryptDecrypt();
+import CryptoShield from "crypto-shield";
+const encryptor = new CryptoShield();
 ```
 
 ### Setting the Secret Key
@@ -90,12 +90,12 @@ const encryptor = new EncryptDecrypt();
 const secretKey = "my-secret-key";
 
 // Set the key while initialize
-const encryptor = new EncryptDecrypt({ secretKey });
+const encryptor = new CryptoShield({ secretKey });
 
 // OR
 
 // Add secretKey after initialize it.
-const encryptor = new EncryptDecrypt();
+const encryptor = new CryptoShield();
 encryptor.setSecretKey(secretKey);
 ```
 
@@ -166,11 +166,11 @@ encryptor
 
 # API Documentation
 
-## Class: EncryptDecrypt
+## Class: CryptoShield
 
-### new EncryptDecrypt(options)
+### new CryptoShield(options)
 
-Creates an instance of the EncryptDecrypt class.
+Creates an instance of the CryptoShield class.
 
 #### Parameters
 
@@ -178,7 +178,7 @@ Creates an instance of the EncryptDecrypt class.
 
 ### EncryptDecryptOptions
 
-The `EncryptDecryptOptions` interface defines the configuration options available when initializing an instance of the `EncryptDecrypt` class.
+The `EncryptDecryptOptions` interface defines the configuration options available when initializing an instance of the `CryptoShield` class.
 
 #### Properties
 
@@ -204,7 +204,7 @@ The `EncryptDecryptOptions` interface defines the configuration options availabl
 ### Usage
 
 ```typescript
-import EncryptDecrypt, { EncryptDecryptOptions } from "node-encrypt-decrypt";
+import CryptoShield, { EncryptDecryptOptions } from "crypto-shield";
 
 // Example options
 const options: EncryptDecryptOptions = {
@@ -220,8 +220,8 @@ const options: EncryptDecryptOptions = {
   pbkdf2Algorithm: "sha256",
 };
 
-// Initialize EncryptDecrypt with options
-const encryptor = new EncryptDecrypt(options);
+// Initialize CryptoShield with options
+const encryptor = new CryptoShield(options);
 
 // Use encryptor instance with the provided options
 ```
