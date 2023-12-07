@@ -62,9 +62,13 @@ Install the package using npm:
 npm install crypto-shield
 ```
 
+Install the package using yarn:
+
 ```bash
 yarn add crypto-shield
 ```
+
+Install the package using bun:
 
 ```bash
 bun add crypto-shield

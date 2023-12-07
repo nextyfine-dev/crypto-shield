@@ -1,6 +1,6 @@
 {
   "name": "crypto-shield",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "CryptoShield is a powerful and efficient Node.js library designed for seamless encryption and decryption using a variety of algorithms. Leveraging Node.js's built-in crypto module, this library empowers users with fine-grained control over their encryption processes, ensuring both security and flexibility.",
   "author": "nextyfine-dev",
   "main": "dist/cjs/index.cjs",
@@ -49,5 +49,13 @@
     "crypto-shield",
     "crypto shield",
     "CryptoShield"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nextyfine-dev/crypto-shield.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nextyfine-dev/crypto-shield/issues"
+  },
+  "homepage": "https://github.com/nextyfine-dev/crypto-shield#readme"
 }
