@@ -101,7 +101,7 @@ class CryptoShield {
   public setSecretKey(secret: string | number | object) {
     let newSecretKey = secret;
     if (typeof secret === "number") newSecretKey = secret.toString();
-    else if (typeof secret === "object") JSON.stringify(secret);
+    else if (typeof secret === "object") newSecretKey = JSON.stringify(secret);
 
     if (typeof newSecretKey !== "string" || newSecretKey.trim() === "") {
       throw new Error("Invalid secret key");
