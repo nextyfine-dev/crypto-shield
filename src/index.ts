@@ -1,5 +1,6 @@
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
+import { promisify } from "node:util";
 
 export type AuthTagLength = 4 | 6 | 8 | 10 | 12 | 14 | 16;
 
@@ -97,17 +98,22 @@ class CryptoShield {
     this.pbkdf2Algorithm = pbkdf2Algorithm;
   }
 
-  public setSecretKey(secret: string) {
-    if (typeof secret !== "string" || secret.trim() === "") {
+  public setSecretKey(secret: string | number | object) {
+    let newSecretKey = secret;
+    if (typeof secret === "number") newSecretKey = secret.toString();
+    else if (typeof secret === "object") JSON.stringify(secret);
+
+    if (typeof newSecretKey !== "string" || newSecretKey.trim() === "") {
       throw new Error("Invalid secret key");
     }
-    this.secretKey = secret.trim();
+    this.secretKey = newSecretKey.trim();
   }
 
-  private deriveKey(salt: Buffer, key?: string) {
-    const secret = key || this.secretKey;
+  private async deriveKey(salt: Buffer, key?: string) {
+    const secret = key ?? this.secretKey;
     if (!secret) throw new Error("Secret key is required!");
-    return crypto.pbkdf2Sync(
+    const pbkdf2 = promisify(crypto.pbkdf2);
+    return pbkdf2(
       secret,
       salt,
       this.iterations,
@@ -116,7 +122,7 @@ class CryptoShield {
     );
   }
 
-  private getDecryptedData(buffer: Buffer, secret?: string) {
+  private async getDecryptedData(buffer: Buffer, secret?: string) {
     const ivPosition = this.salt + this.ivLength;
     const tagPosition = ivPosition + this.tagLength;
 
@@ -125,7 +131,7 @@ class CryptoShield {
     const tag = buffer.subarray(ivPosition, tagPosition);
     const encrypted = buffer.subarray(tagPosition);
 
-    const key = this.deriveKey(salt, secret);
+    const key = await this.deriveKey(salt, secret);
     const decipher = crypto.createDecipheriv(
       this.algorithm,
       key,
@@ -143,10 +149,10 @@ class CryptoShield {
     return decrypted;
   }
 
-  private getEncryptedData(data: string | Buffer, secret?: string) {
+  private async getEncryptedData(data: string | Buffer, secret?: string) {
     const iv = crypto.randomBytes(this.ivLength);
     const salt = crypto.randomBytes(this.salt);
-    const key = this.deriveKey(salt, secret);
+    const key = await this.deriveKey(salt, secret);
     const cipher = crypto.createCipheriv(
       this.algorithm,
       key,
@@ -163,30 +169,26 @@ class CryptoShield {
     return Buffer.concat([salt, iv, tag, encrypted]);
   }
 
-  public encryptText(text: string, secret?: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      try {
-        resolve(this.getEncryptedData(text, secret).toString(this.encoding));
-      } catch (error) {
-        reject(`Error while text encryption! Error:- ${error}`);
-      }
-    });
+  public async encryptText(text: string, secret?: string): Promise<string> {
+    try {
+      const data = await this.getEncryptedData(text, secret);
+      return data.toString(this.encoding);
+    } catch (error) {
+      throw new Error(`Text encryption failed! ${error}`);
+    }
   }
 
-  public decryptText(encryptedText: string, secret?: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      try {
-        const encryptedBuffer = Buffer.from(
-          String(encryptedText),
-          this.encoding
-        );
-        resolve(
-          this.getDecryptedData(encryptedBuffer, secret).toString(this.decoding)
-        );
-      } catch (error) {
-        reject(`Error while text decryption! Error:- ${error}`);
-      }
-    });
+  public async decryptText(
+    encryptedText: string,
+    secret?: string
+  ): Promise<string> {
+    try {
+      const encryptedBuffer = Buffer.from(String(encryptedText), this.encoding);
+      const data = await this.getDecryptedData(encryptedBuffer, secret);
+      return data.toString(this.decoding);
+    } catch (error) {
+      throw new Error(`Text decryption failed! ${error}`);
+    }
   }
 
   public async encryptFile(
@@ -196,14 +198,14 @@ class CryptoShield {
   ) {
     try {
       const fileData = await fs.readFile(inputFilePath);
-      const encrypted = this.getEncryptedData(fileData, secret);
+      const encrypted = await this.getEncryptedData(fileData, secret);
 
-      const outPath = outputFilePath || inputFilePath;
+      const outPath = outputFilePath ?? inputFilePath;
       await fs.writeFile(outPath, encrypted);
 
       return true;
     } catch (error) {
-      throw new Error(`Error while encrypt file! Error:- ${error}`);
+      throw new Error(`File encryption failed! ${error}`);
     }
   }
 
@@ -214,12 +216,12 @@ class CryptoShield {
   ) {
     try {
       const encryptedBuffer = await fs.readFile(inputFilePath);
-      const decrypted = this.getDecryptedData(encryptedBuffer, secret);
-      const outPath = outputFilePath || inputFilePath;
+      const decrypted = await this.getDecryptedData(encryptedBuffer, secret);
+      const outPath = outputFilePath ?? inputFilePath;
       await fs.writeFile(outPath, decrypted);
       return true;
     } catch (error) {
-      throw new Error(`Error while decrypt file! Error:- ${error}`);
+      throw new Error(`File decryption failed! ${error}`);
     }
   }
 }
